@@ -14,5 +14,6 @@ def change():
     data = request.get_json()
     alt = int(data.get("altitude", 404))
     azi = int(data.get("azimuth", 404))
+    global changable
     changable = [alt, azi]
     return "ok", 200
