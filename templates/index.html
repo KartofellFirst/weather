@@ -9,11 +9,20 @@
     <h1 id="alt"></h1>
     <h1 id="azi"></h1>
 <script>
+    
+    
     function update() {
         fetch('/update')
         .then(response => response.json())
-        .then(data => { document.querySelector('#alt').textContent = data.alt; document.querySelector('#azi').textContent = data.azi})
+        .then(data => { 
+            document.querySelector('#alt').textContent = `alt: ${data.alt}°`; 
+            document.querySelector('#azi').textContent = `azi: ${data.azi}°`;
+            document.querySelector('#hum').textContent = `hum: ${data.hum}%`;
+            document.querySelector('#azi').textContent = `temp: ${data.azi}°C`;
+        })
     }
+
+    update()
     
     setInterval(update, 10000)
 </script>
