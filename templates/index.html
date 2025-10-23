@@ -240,6 +240,71 @@
     });
     updateIndicator(0);
 
+    let isDragging = false;
+    let startX = 0;
+    let currentLeft = 0;
+    const nav = document.querySelector('.glass-buttons');
+    
+    indicator.addEventListener('mousedown', startDrag);
+    indicator.addEventListener('touchstart', startDrag);
+    
+    function startDrag(e) {
+        isDragging = true;
+        startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    
+        // Получаем текущую позицию индикатора в пикселях
+        const rect = indicator.getBoundingClientRect();
+        const navRect = nav.getBoundingClientRect();
+        currentLeft = rect.left - navRect.left;
+    
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('touchmove', dragMove);
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+    }
+
+    
+    function dragMove(e) {
+        if (!isDragging) return;
+        const x = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const delta = x - startX;
+        let newLeft = currentLeft + delta;
+    
+        const maxLeft = nav.offsetWidth - indicator.offsetWidth;
+        newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+    
+        indicator.style.transition = 'none';
+        indicator.style.left = `${newLeft}px`;
+    }
+
+    
+    function endDrag() {
+        isDragging = false;
+        indicator.style.transition = 'left 0.3s ease';
+    
+        // Найти ближайшую кнопку
+        const indicatorCenter = indicator.offsetLeft + indicator.offsetWidth / 2;
+        let closestIndex = 0;
+        let minDist = Infinity;
+    
+        buttons.forEach((btn, i) => {
+            const btnCenter = btn.offsetLeft + btn.offsetWidth / 2;
+            const dist = Math.abs(indicatorCenter - btnCenter);
+            if (dist < minDist) {
+                minDist = dist;
+                closestIndex = i;
+            }
+        });
+    
+        goToSlide(closestIndex);
+    
+        document.removeEventListener('mousemove', dragMove);
+        document.removeEventListener('touchmove', dragMove);
+        document.removeEventListener('mouseup', endDrag);
+        document.removeEventListener('touchend', endDrag);
+    }
+
+
 
     function azi_anim(deg) {
         const arrow = document.querySelector('#azi-arrow');
