@@ -102,7 +102,7 @@
             document.querySelector('#hum').textContent = `hum: ${data.hum}%`;
             document.querySelector('#temp').textContent = `temp: ${data.temp}°C`;
 
-            document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-data.alt} 100 100)`);
+            document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-data.alt} 50 100)`);
             document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${data.azi} 100 100)`);
         })
     }
@@ -147,11 +147,11 @@
     function alt_anim(deg) {
   const arrow = document.querySelector('#alt-arrow');
   arrow.style.transition = 'none';
-  arrow.setAttribute('transform', `rotate(0 100 100)`);
+  arrow.setAttribute('transform', `rotate(0 50 100)`);
 
   setTimeout(() => {
     arrow.style.transition = 'transform 0.5s ease';
-    arrow.setAttribute('transform', `rotate(${-deg} 100 100)`);
+    arrow.setAttribute('transform', `rotate(${-deg} 50 100)`);
   }, 50);
 }
 
