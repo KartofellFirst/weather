@@ -97,13 +97,13 @@
         fetch('/update')
         .then(response => response.json())
         .then(data => { 
-            document.querySelector('#alt').textContent = `alt: ${data.alt}°`; 
+            document.querySelector('#alt').textContent = `${data.alt}°`; 
             document.querySelector('#azi').textContent = `${data.azi}°`;
             document.querySelector('#hum').textContent = `hum: ${data.hum}%`;
             document.querySelector('#temp').textContent = `temp: ${data.temp}°C`;
 
-            alt_anim(document.querySelector('#alt').textContent.slice(0, -1))
-            azi_anim(document.querySelector('#azi').textContent.slice(0, -1));
+            document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${data.alt} 100 100)`);
+            document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${data.azi} 100 100)`);
         })
     }
 
@@ -120,14 +120,41 @@
         if (currentSlide == 1) azi_anim(document.querySelector('#azi').textContent.slice(0, -1)); 
     });
 
+    // function azi_anim(deg) {
+    //     document.querySelector('#azi-arrow').setAttribute('transform', `rotate(0 100 100)`);
+    //     setTimeout(() => {document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${deg} 100 100)`);}, 500);
+    // }
     function azi_anim(deg) {
-        document.querySelector('#azi-arrow').setAttribute('transform', `rotate(0 100 100)`);
-        setTimeout(() => {document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${deg} 100 100)`);}, 500);
-    }
+  const arrow = document.querySelector('#azi-arrow');
+
+  // 1. Отключаем анимацию
+  arrow.style.transition = 'none';
+
+  // 2. Мгновенно ставим в 0°
+  arrow.setAttribute('transform', `rotate(0 100 100)`);
+
+  // 3. Включаем анимацию и поворачиваем в нужный угол
+  setTimeout(() => {
+    arrow.style.transition = 'transform 0.5s ease';
+    arrow.setAttribute('transform', `rotate(${deg} 100 100)`);
+  }, 50); // короткая задержка, чтобы браузер успел применить стиль
+}
+
+    // function alt_anim(deg) {
+    //     document.querySelector('#alt-arrow').setAttribute('transform', `rotate(0 100 100)`);
+    //     setTimeout(() => {document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-deg} 100 100)`);}, 500);
+    // }
     function alt_anim(deg) {
-        document.querySelector('#alt-arrow').setAttribute('transform', `rotate(0 100 100)`);
-        setTimeout(() => {document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-deg} 100 100)`);}, 500);
-    }
+  const arrow = document.querySelector('#alt-arrow');
+  arrow.style.transition = 'none';
+  arrow.setAttribute('transform', `rotate(0 100 100)`);
+
+  setTimeout(() => {
+    arrow.style.transition = 'transform 0.5s ease';
+    arrow.setAttribute('transform', `rotate(${-deg} 100 100)`);
+  }, 50);
+}
+
 </script>
 </body>
 </html>
