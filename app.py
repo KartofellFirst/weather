@@ -3,7 +3,7 @@ import json
 
 app = Flask(__name__)
 
-changable = [0, 0]
+changable = [0, 0, 0, 0]
 
 @app.route('/')
 def home():
@@ -11,13 +11,15 @@ def home():
 
 @app.route('/update', methods=["GET"])
 def give_data():
-    return json.dumps({"alt": changable[0], "azi": changable[1]})
+    return json.dumps({"alt": changable[0], "azi": changable[1], "hum": changable[2], "temp": changable[3]})
 
 @app.route('/change', methods=["POST"])
 def change():
     data = request.get_json()
     alt = int(data.get("altitude", 404))
     azi = int(data.get("azimuth", 404))
+    hum = int(data.get("humidity", 404))
+    temp = int(data.get("temperature", 404))
     global changable
-    changable = [alt, azi]
+    changable = [alt, azi, hum, temp]
     return "ok", 200
