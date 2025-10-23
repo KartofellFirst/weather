@@ -54,7 +54,7 @@
                 <line x1="50" y1="150" x2="50" y2="50" stroke="white" stroke-width="4"></line>
                 
                 <!-- Красная стрелка (движется по углу) -->
-                <line id="alt-arrow" x1="50" y1="150" x2="160" y2="150" stroke="red" stroke-width="4" style="transition: transform 0.5s ease;" transform="rotate(-55 50 150)"></line>
+                <line id="alt-arrow" x1="50" y1="150" x2="160" y2="150" stroke="red" stroke-width="4" style="transition: transform 0.5s ease;" transform="rotate(0 50 150)"></line>
             </svg>
             <p id="alt">--</p>
         </section>
@@ -102,7 +102,7 @@
             document.querySelector('#hum').textContent = `hum: ${data.hum}%`;
             document.querySelector('#temp').textContent = `temp: ${data.temp}°C`;
 
-            document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${data.alt} 100 100)`);
+            document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-data.alt} 100 100)`);
             document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${data.azi} 100 100)`);
         })
     }
