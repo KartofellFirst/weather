@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="alt"></h1>
+    <h1 id="azi"></h1>
+<script>
+    function update() {
+        fetch('/update')
+        .then(response => response.json())
+        .then(data => { document.querySelector('#alt').textContent = data.alt; document.querySelector('#azi').textContent = data.azi})
+    }
+    
+    setInterval(update, 10000)
+</script>
+</body>
+</html>
