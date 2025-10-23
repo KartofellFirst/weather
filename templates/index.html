@@ -44,27 +44,58 @@
 </head>
 <body>
     <div class="slider">
-        <section class="slide" id="slide-alt">
+        <!-- <section class="slide" id="slide-alt">
             <h2>Altitude</h2>
             <svg width="200" height="200" viewBox="0 0 200 200">
-                <!-- Белая рамка: горизонтальная -->
                 <line x1="50" y1="150" x2="150" y2="150" stroke="white" stroke-width="4"></line>
                 
-                <!-- Белая рамка: вертикальная -->
                 <line x1="50" y1="150" x2="50" y2="50" stroke="white" stroke-width="4"></line>
                 
-                <!-- Красная стрелка (движется по углу) -->
                 <line id="alt-arrow" x1="50" y1="150" x2="160" y2="150" stroke="red" stroke-width="4" style="transition: transform 0.5s ease;" transform="rotate(0 50 150)"></line>
             </svg>
             <p id="alt">--</p>
+        </section> -->
+        <section class="slide" id="slide-alt">
+            <h2>Altitude</h2>
+            <div class="svg-wrapper" style="position: relative; width: 200px; height: 200px;">
+                <!-- Статичная рамка -->
+                <svg width="200" height="200" viewBox="0 0 200 200" style="position: absolute; top: 0; left: 0;">
+                    <line x1="50" y1="150" x2="150" y2="150" stroke="white" stroke-width="4"></line>
+                    <line x1="50" y1="150" x2="50" y2="50" stroke="white" stroke-width="4"></line>
+                </svg>
+                <!-- Движущаяся стрелка -->
+                <div id="alt-arrow" style="position: absolute; top: 0; left: 0; width: 200px; height: 200px; transform-origin: 50px 150px;">
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <line x1="50" y1="150" x2="160" y2="150" stroke="red" stroke-width="4"></line>
+                    </svg>
+                </div>
+            </div>
+            <p id="alt">--</p>
         </section>
+
         <section class="slide" id="slide-azi">
             <h2>Azimuth</h2>
+            <div class="svg-wrapper" style="position: relative; width: 200px; height: 200px;">
+                <!-- Статичный круг -->
+                <svg width="200" height="200" viewBox="0 0 200 200" style="position: absolute; top: 0; left: 0;">
+                    <circle cx="100" cy="100" r="80" stroke="#fff" stroke-width="3" fill="none"></circle>
+                    <line x1="100" y1="100" x2="100" y2="20" stroke="white" stroke-width="2"></line>
+                </svg>
+                <!-- Движущаяся стрелка -->
+                <div id="azi-arrow" style="position: absolute; top: 0; left: 0; width: 200px; height: 200px; transform-origin: 100px 100px;">
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <line x1="100" y1="100" x2="100" y2="20" stroke="gold" stroke-width="3"></line>
+                    </svg>
+                </div>
+            </div>
+            <p id="azi">--</p>
+        </section>
+
+        <!-- <section class="slide" id="slide-azi">
+            <h2>Azimuth</h2>
             <svg width="200" height="200" viewBox="0 0 200 200">
-                <!-- Внешний круг -->
                 <circle cx="100" cy="100" r="80" stroke="#fff" stroke-width="3" fill="none"></circle>
                 
-                <!-- Белая стрелка на север -->
                 <line x1="100" y1="100" x2="100" y2="20" stroke="white" stroke-width="2"></line>
                 
                 <g id="azi-arrow" style="transition: transform 0.5s ease;" transform="rotate(297 100 100)">
@@ -72,11 +103,29 @@
                 </g>
             </svg>
             <p id="azi">--</p>
-        </section>
+        </section> -->
         <section class="slide" id="slide-hum">
             <h2>Humidity</h2>
+            <div style="position: relative; width: 120px; height: 180px;">
+                <!-- Статичная капля -->
+                <svg width="120" height="180" viewBox="0 0 120 180" style="position: absolute; top: 0; left: 0;">
+                    <path d="
+                        M60 20
+                        C90 60, 110 130, 60 130
+                        C10 130, 30 60, 60 20
+                        Z" fill="none" stroke="#fff" stroke-width="1"></path>
+                </svg>
+                <!-- Заливка -->
+                <div style="position: absolute; top: 0; left: 0; width: 120px; height: 180px; overflow: hidden; clip-path: path('M60 20 C90 60, 110 130, 60 130 C10 130, 30 60, 60 20 Z');">
+                    <div id="drop-fill" style="background: #fff; width: 120px; height: 180px; position: absolute; top: 54px; transition: top 0.5s ease;"></div>
+                </div>
+            </div>
+            <p id="hum">--</p>
+        </section>
+
+        <!-- <section class="slide" id="slide-hum">
+            <h2>Humidity</h2>
             <svg width="120" height="180" viewBox="0 0 120 180" style="transform: scale(1.2);position: relative;top: 20px;">
-                <!-- Капля: круг + эллипс -->
                 <defs>
                     <clipPath id="dropClip">
                         <path d="
@@ -87,18 +136,16 @@
                     </clipPath>
                 </defs>
                 
-                    <!-- Фон капли -->
                 <path d="
                 M60 20
                 C90 60, 110 130, 60 130
                 C10 130, 30 60, 60 20
                 Z" fill="none" stroke="#fff" stroke-width="1"></path>
                 
-                <!-- Заливка -->
                 <rect id="drop-fill" x="0" y="54" width="120" height="180" fill="#fff" clip-path="url(#dropClip)" style="transition: y 0.5s ease;"></rect>
             </svg>
             <p id="hum">--</p>
-        </section>
+        </section> -->
         <section class="slide" id="slide-temp">
             <h2>Temperature</h2>
             <svg></svg>
@@ -114,56 +161,142 @@
 <script>
     let currentSlide = 0;
     
+    // function update() {
+    //     fetch('/update')
+    //     .then(response => response.json())
+    //     .then(data => { 
+    //         document.querySelector('#alt').textContent = `${data.alt}°`; 
+    //         document.querySelector('#azi').textContent = `${data.azi}°`;
+    //         document.querySelector('#hum').textContent = `${data.hum}%`;
+    //         document.querySelector('#temp').textContent = `${data.temp}°C`;
+
+    //         document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-data.alt} 50 150)`);
+    //         document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${data.azi} 100 100)`);
+    //         document.getElementById('drop-fill').setAttribute('y', 130 - (110 * data.hum / 100));
+    //     })
+    // }
     function update() {
         fetch('/update')
         .then(response => response.json())
-        .then(data => { 
-            document.querySelector('#alt').textContent = `${data.alt}°`; 
+        .then(data => {
+            document.querySelector('#alt').textContent = `${data.alt}°`;
             document.querySelector('#azi').textContent = `${data.azi}°`;
             document.querySelector('#hum').textContent = `${data.hum}%`;
             document.querySelector('#temp').textContent = `${data.temp}°C`;
-
-            document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-data.alt} 50 150)`);
-            document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${data.azi} 100 100)`);
-            document.getElementById('drop-fill').setAttribute('y', 130 - (110 * data.hum / 100));
-        })
+    
+            document.querySelector('#alt-arrow').style.transform = `rotate(${-data.alt}deg)`;
+            document.querySelector('#azi-arrow').style.transform = `rotate(${data.azi}deg)`;
+            document.getElementById('drop-fill').style.top = `${130 - (110 * data.hum / 100)}px`;
+        });
     }
+
 
     update()
     
     setInterval(update, 10000)
 
     // свайп-слайдер
-    document.addEventListener('keydown', e => {
-        if (e.key === 'ArrowRight') currentSlide = Math.min(currentSlide + 1, 4);
-        if (e.key === 'ArrowLeft') currentSlide = Math.max(currentSlide - 1, 0);
-        document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
-        if (currentSlide == 0) alt_anim(document.querySelector('#alt').textContent.slice(0, -1));
-        if (currentSlide == 1) azi_anim(document.querySelector('#azi').textContent.slice(0, -1)); 
-        if (currentSlide == 3) hum_anim(document.querySelector('#hum').textContent.slice(0, -1));
+    // document.addEventListener('keydown', e => {
+    //     if (e.key === 'ArrowRight') currentSlide = Math.min(currentSlide + 1, 4);
+    //     if (e.key === 'ArrowLeft') currentSlide = Math.max(currentSlide - 1, 0);
+    //     document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
+    //     if (currentSlide == 0) alt_anim(document.querySelector('#alt').textContent.slice(0, -1));
+    //     if (currentSlide == 1) azi_anim(document.querySelector('#azi').textContent.slice(0, -1)); 
+    //     if (currentSlide == 3) hum_anim(document.querySelector('#hum').textContent.slice(0, -1));
+    // });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
     });
+    
+    document.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const threshold = 50; // минимальное расстояние для свайпа
+    
+        if (touchEndX < touchStartX - threshold) {
+            currentSlide = Math.min(currentSlide + 1, document.querySelectorAll('.slide').length - 1);
+        }
+    
+        if (touchEndX > touchStartX + threshold) {
+            currentSlide = Math.max(currentSlide - 1, 0);
+        }
+    
+        document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
+    
+        switch (currentSlide) {
+            case 0:
+                alt_anim(parseFloat(document.querySelector('#alt').textContent));
+                break;
+            case 1:
+                azi_anim(parseFloat(document.querySelector('#azi').textContent));
+                break;
+            case 3:
+                hum_anim(parseFloat(document.querySelector('#hum').textContent));
+                break;
+        }
+    }
+
 
     function azi_anim(deg) {
         const arrow = document.querySelector('#azi-arrow');
         arrow.style.transition = 'none';
-        arrow.setAttribute('transform', `rotate(0 100 100)`);
-        setTimeout(() => {arrow.style.transition = 'transform 0.5s ease';arrow.setAttribute('transform', `rotate(${deg} 100 100)`);}, 50);
+        arrow.style.transform = `rotate(0deg)`;
+        setTimeout(() => {
+            arrow.style.transition = 'transform 0.5s ease';
+            arrow.style.transform = `rotate(${deg}deg)`;
+        }, 50);
     }
     
     function alt_anim(deg) {
         const arrow = document.querySelector('#alt-arrow');
         arrow.style.transition = 'none';
-        arrow.setAttribute('transform', `rotate(0 50 150)`);
-        setTimeout(() => {arrow.style.transition = 'transform 0.5s ease';arrow.setAttribute('transform', `rotate(${-deg} 50 150)`);}, 50);
+        arrow.style.transform = `rotate(0deg)`;
+        setTimeout(() => {
+            arrow.style.transition = 'transform 0.5s ease';
+            arrow.style.transform = `rotate(${-deg}deg)`;
+        }, 50);
     }
-
+    
     function hum_anim(hum) {
         const fill = document.getElementById('drop-fill');
         const y = 130 - (110 * hum / 100);
         fill.style.transition = "none";
-        fill.setAttribute('y', 130);
-        setTimeout(() => {fill.style.transition = "y .5s ease"; fill.setAttribute('y', y);}, 50) 
+        fill.style.top = "130px";
+        setTimeout(() => {
+            fill.style.transition = "top 0.5s ease";
+            fill.style.top = `${y}px`;
+        }, 50);
     }
+
+
+    // function azi_anim(deg) {
+    //     const arrow = document.querySelector('#azi-arrow');
+    //     arrow.style.transition = 'none';
+    //     arrow.setAttribute('transform', `rotate(0 100 100)`);
+    //     setTimeout(() => {arrow.style.transition = 'transform 0.5s ease';arrow.setAttribute('transform', `rotate(${deg} 100 100)`);}, 50);
+    // }
+    
+    // function alt_anim(deg) {
+    //     const arrow = document.querySelector('#alt-arrow');
+    //     arrow.style.transition = 'none';
+    //     arrow.setAttribute('transform', `rotate(0 50 150)`);
+    //     setTimeout(() => {arrow.style.transition = 'transform 0.5s ease';arrow.setAttribute('transform', `rotate(${-deg} 50 150)`);}, 50);
+    // }
+
+    // function hum_anim(hum) {
+    //     const fill = document.getElementById('drop-fill');
+    //     const y = 130 - (110 * hum / 100);
+    //     fill.style.transition = "none";
+    //     fill.setAttribute('y', 130);
+    //     setTimeout(() => {fill.style.transition = "y .5s ease"; fill.setAttribute('y', y);}, 50) 
+    // }
 </script>
 </body>
 </html>
