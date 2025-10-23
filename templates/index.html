@@ -225,20 +225,13 @@
         }
     }
     
-    function updateIndicator(index) {
-        const btn = buttons[index];
-        const rect = btn.getBoundingClientRect();
-        const navRect = document.querySelector('.glass-buttons').getBoundingClientRect();
-        indicator.style.left = `${rect.left - navRect.left + rect.width / 2 - 30}px`;
-    }
-    
     // Инициализация
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
             goToSlide(parseInt(btn.dataset.index));
         });
     });
-    updateIndicator(0);
+    indicator.style.left = `${0}vw`;
 
     let isDragging = false;
     let startX = 0;
