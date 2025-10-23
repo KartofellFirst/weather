@@ -46,7 +46,16 @@
     <div class="slider">
         <section class="slide" id="slide-alt">
             <h2>Altitude</h2>
-            <svg><!-- SVG график или иконка --></svg>
+            <svg width="200" height="200" viewBox="0 0 200 200">
+                <!-- Белая рамка: горизонтальная -->
+                <line x1="50" y1="150" x2="150" y2="150" stroke="white" stroke-width="4"></line>
+                
+                <!-- Белая рамка: вертикальная -->
+                <line x1="50" y1="150" x2="50" y2="50" stroke="white" stroke-width="4"></line>
+                
+                <!-- Красная стрелка (движется по углу) -->
+                <line id="alt-arrow" x1="50" y1="150" x2="160" y2="150" stroke="red" stroke-width="4" style="transition: transform 0.5s ease;" transform="rotate(-55 50 150)"></line>
+            </svg>
             <p id="alt">--</p>
         </section>
         <section class="slide" id="slide-azi">
@@ -92,6 +101,9 @@
             document.querySelector('#azi').textContent = `${data.azi}°`;
             document.querySelector('#hum').textContent = `hum: ${data.hum}%`;
             document.querySelector('#temp').textContent = `temp: ${data.temp}°C`;
+
+            alt_anim(document.querySelector('#alt').textContent.slice(0, -1))
+            azi_anim(document.querySelector('#azi').textContent.slice(0, -1));
         })
     }
 
@@ -104,12 +116,17 @@
         if (e.key === 'ArrowRight') currentSlide = Math.min(currentSlide + 1, 4);
         if (e.key === 'ArrowLeft') currentSlide = Math.max(currentSlide - 1, 0);
         document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
+        if (currentSlide == 0) alt_anim(document.querySelector('#alt').textContent.slice(0, -1));
         if (currentSlide == 1) azi_anim(document.querySelector('#azi').textContent.slice(0, -1)); 
     });
 
     function azi_anim(deg) {
-        document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${0} 100 100)`);
-        setInterval(() => {document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${deg} 100 100)`);}, 500);
+        document.querySelector('#azi-arrow').setAttribute('transform', `rotate(0 100 100)`);
+        setTimeout(() => {document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${deg} 100 100)`);}, 500);
+    }
+    function alt_anim(deg) {
+        document.querySelector('#alt-arrow').setAttribute('transform', `rotate(0 100 100)`);
+        setTimeout(() => {document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-deg} 100 100)`);}, 500);
     }
 </script>
 </body>
