@@ -3,15 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Weather</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #111;
+            color: #fff;
+            overflow: hidden;
+        }
+        
+        .slider {
+            display: flex;
+            width: 500vw;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            font-size: 3rem;
+            margin-top: 1rem;
+        }
+
+    </style>
 </head>
 <body>
-    <h1 id="alt"></h1>
-    <h1 id="azi"></h1>
-    <h1 id="hum"></h1>
-    <h1 id="temp"></h1>
+    <div class="slider">
+        <section class="slide" id="slide-alt">
+            <h2>Altitude</h2>
+            <svg><!-- SVG график или иконка --></svg>
+            <p id="alt">--</p>
+        </section>
+        <section class="slide" id="slide-azi">
+            <h2>Azimuth</h2>
+            <svg></svg>
+            <p id="azi">--</p>
+        </section>
+        <section class="slide" id="slide-hum">
+            <h2>Humidity</h2>
+            <svg></svg>
+            <p id="hum">--</p>
+        </section>
+        <section class="slide" id="slide-temp">
+            <h2>Temperature</h2>
+            <svg></svg>
+            <p id="temp">--</p>
+        </section>
+        <section class="slide" id="slide-solar">
+            <h2>Solar Activity</h2>
+            <svg></svg>
+            <p id="solar">--</p>
+        </section>
+    </div>
+
 <script>
-    
+    let currentSlide = 0;
     
     function update() {
         fetch('/update')
@@ -27,6 +88,13 @@
     update()
     
     setInterval(update, 10000)
+
+    // свайп-слайдер
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight') currentSlide = Math.min(currentSlide + 1, 4);
+        if (e.key === 'ArrowLeft') currentSlide = Math.max(currentSlide - 1, 0);
+        document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
+    });
 </script>
 </body>
 </html>
