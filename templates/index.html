@@ -51,7 +51,17 @@
         </section>
         <section class="slide" id="slide-azi">
             <h2>Azimuth</h2>
-            <svg></svg>
+            <svg width="200" height="200" viewBox="0 0 200 200">
+                <!-- Внешний круг -->
+                <circle cx="100" cy="100" r="80" stroke="#fff" stroke-width="3" fill="none"></circle>
+                
+                <!-- Белая стрелка на север -->
+                <line x1="100" y1="100" x2="100" y2="20" stroke="white" stroke-width="2"></line>
+                
+                <g id="azi-arrow" style="transition: transform 0.5s ease;" transform="rotate(297 100 100)">
+                    <line x1="100" y1="100" x2="100" y2="20" stroke="gold" stroke-width="3" transform="rotate(0 100 100)"></line>
+                </g>
+            </svg>
             <p id="azi">--</p>
         </section>
         <section class="slide" id="slide-hum">
@@ -79,7 +89,7 @@
         .then(response => response.json())
         .then(data => { 
             document.querySelector('#alt').textContent = `alt: ${data.alt}°`; 
-            document.querySelector('#azi').textContent = `azi: ${data.azi}°`;
+            document.querySelector('#azi').textContent = `${data.azi}°`;
             document.querySelector('#hum').textContent = `hum: ${data.hum}%`;
             document.querySelector('#temp').textContent = `temp: ${data.temp}°C`;
         })
@@ -94,7 +104,15 @@
         if (e.key === 'ArrowRight') currentSlide = Math.min(currentSlide + 1, 4);
         if (e.key === 'ArrowLeft') currentSlide = Math.max(currentSlide - 1, 0);
         document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
+        if (currentSlide = 1) azi_anim(document.querySelector('#azi').textContent.slice(0, -1)); 
     });
+
+    function azi_anim(deg) {
+        document.querySelector('#azi-arrow').setAttribute('transition', `transform 0s`);
+        document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${0} 100 100)`);
+        document.querySelector('#azi-arrow').setAttribute('transition', `transform 0.5s ease`);
+        document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${deg} 100 100)`);
+    }
 </script>
 </body>
 </html>
