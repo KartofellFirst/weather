@@ -104,14 +104,12 @@
         if (e.key === 'ArrowRight') currentSlide = Math.min(currentSlide + 1, 4);
         if (e.key === 'ArrowLeft') currentSlide = Math.max(currentSlide - 1, 0);
         document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
-        if (currentSlide = 1) azi_anim(document.querySelector('#azi').textContent.slice(0, -1)); 
+        if (currentSlide == 1) azi_anim(document.querySelector('#azi').textContent.slice(0, -1)); 
     });
 
     function azi_anim(deg) {
-        document.querySelector('#azi-arrow').setAttribute('transition', `transform 0s`);
         document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${0} 100 100)`);
-        document.querySelector('#azi-arrow').setAttribute('transition', `transform 0.5s ease`);
-        document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${deg} 100 100)`);
+        setInterval(() => {document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${deg} 100 100)`);}, 500);
     }
 </script>
 </body>
