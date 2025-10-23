@@ -40,27 +40,53 @@
             margin-top: 1rem;
         }
 
-        .bottom-nav {
+        .glass-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100vw;
+            height: 80px;
             background: #222;
+            border-radius: 20px 20px 0 0;
             display: flex;
-            justify-content: space-around;
-            padding: 0.5rem 0;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 10px;
             z-index: 10;
         }
         
-        .bottom-nav button {
+        .glass-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+        
+        .glass-buttons button {
+            flex: 1;
             background: none;
             border: none;
             color: #fff;
-            font-size: 1.2rem;
-            padding: 0.5rem;
+            font-size: 1rem;
+            padding: 0.5rem 0;
             cursor: pointer;
+            position: relative;
+            z-index: 2;
         }
-
+        
+        .glass-indicator {
+            position: absolute;
+            top: 0;
+            width: 60px;
+            height: 6px;
+            background: #fff;
+            border-radius: 3px;
+            transition: left 0.3s ease;
+            z-index: 1;
+        }
+        
 
     </style>
 </head>
@@ -129,13 +155,17 @@
             <p id="solar">--</p>
         </section>
     </div>
-    <nav class="bottom-nav">
-        <button onclick="goToSlide(0)">🧭 Alt</button>
-        <button onclick="goToSlide(1)">🧭 Azi</button>
-        <button onclick="goToSlide(2)">💧 Hum</button>
-        <button onclick="goToSlide(3)">🌡 Temp</button>
-        <button onclick="goToSlide(4)">☀️ Solar</button>
+    <nav class="glass-nav">
+        <div class="glass-indicator" id="glass-indicator"></div>
+        <div class="glass-buttons">
+            <button data-index="0">Alt</button>
+            <button data-index="1">Azi</button>
+            <button data-index="2">Hum</button>
+            <button data-index="3">Temp</button>
+            <button data-index="4">Solar</button>
+        </div>
     </nav>
+
 
 <script>
     let currentSlide = 0;
@@ -156,43 +186,35 @@
     update()
     setInterval(update, 10000)
 
+    const indicator = document.getElementById('glass-indicator');
+    const buttons = document.querySelectorAll('.glass-buttons button');
+    
     function goToSlide(index) {
         currentSlide = index;
         document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
+        updateIndicator(index);
     
-        switch (currentSlide) {
+        switch (index) {
             case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); break;
             case 1: azi_anim(parseFloat(document.querySelector('#azi').textContent)); break;
-            case 3: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
+            case 2: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
         }
     }
-
-    const slider = document.querySelector('.slider');
-    let startX = 0;
-    let endX = 0;
     
-    slider.addEventListener('touchstart', e => {
-        startX = e.touches[0].clientX;
+    function updateIndicator(index) {
+        const btn = buttons[index];
+        const rect = btn.getBoundingClientRect();
+        const navRect = document.querySelector('.glass-buttons').getBoundingClientRect();
+        indicator.style.left = `${rect.left - navRect.left + rect.width / 2 - 30}px`;
+    }
+    
+    // Инициализация
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            goToSlide(parseInt(btn.dataset.index));
+        });
     });
-    
-    slider.addEventListener('touchend', e => {
-        endX = e.changedTouches[0].clientX;
-        const delta = endX - startX;
-    
-        if (Math.abs(delta) > 50) {
-            if (delta < 0) currentSlide = Math.min(currentSlide + 1, 4);
-            else currentSlide = Math.max(currentSlide - 1, 0);
-    
-            slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
-    
-            switch (currentSlide) {
-                case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); break;
-                case 1: azi_anim(parseFloat(document.querySelector('#azi').textContent)); break;
-                case 3: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
-            }
-        }
-    });
-
+    updateIndicator(0);
 
 
     function azi_anim(deg) {
