@@ -40,21 +40,32 @@
             margin-top: 1rem;
         }
 
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            background: #222;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0;
+            z-index: 10;
+        }
+        
+        .bottom-nav button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+
     </style>
 </head>
 <body>
     <div class="slider">
-        <!-- <section class="slide" id="slide-alt">
-            <h2>Altitude</h2>
-            <svg width="200" height="200" viewBox="0 0 200 200">
-                <line x1="50" y1="150" x2="150" y2="150" stroke="white" stroke-width="4"></line>
-                
-                <line x1="50" y1="150" x2="50" y2="50" stroke="white" stroke-width="4"></line>
-                
-                <line id="alt-arrow" x1="50" y1="150" x2="160" y2="150" stroke="red" stroke-width="4" style="transition: transform 0.5s ease;" transform="rotate(0 50 150)"></line>
-            </svg>
-            <p id="alt">--</p>
-        </section> -->
         <section class="slide" id="slide-alt">
             <h2>Altitude</h2>
             <div class="svg-wrapper" style="position: relative; width: 200px; height: 200px;">
@@ -72,7 +83,6 @@
             </div>
             <p id="alt">--</p>
         </section>
-
         <section class="slide" id="slide-azi">
             <h2>Azimuth</h2>
             <div class="svg-wrapper" style="position: relative; width: 200px; height: 200px;">
@@ -90,20 +100,6 @@
             </div>
             <p id="azi">--</p>
         </section>
-
-        <!-- <section class="slide" id="slide-azi">
-            <h2>Azimuth</h2>
-            <svg width="200" height="200" viewBox="0 0 200 200">
-                <circle cx="100" cy="100" r="80" stroke="#fff" stroke-width="3" fill="none"></circle>
-                
-                <line x1="100" y1="100" x2="100" y2="20" stroke="white" stroke-width="2"></line>
-                
-                <g id="azi-arrow" style="transition: transform 0.5s ease;" transform="rotate(297 100 100)">
-                    <line x1="100" y1="100" x2="100" y2="20" stroke="gold" stroke-width="3" transform="rotate(0 100 100)"></line>
-                </g>
-            </svg>
-            <p id="azi">--</p>
-        </section> -->
         <section class="slide" id="slide-hum">
             <h2>Humidity</h2>
             <div style="position: relative; width: 120px; height: 180px;">
@@ -122,30 +118,6 @@
             </div>
             <p id="hum">--</p>
         </section>
-
-        <!-- <section class="slide" id="slide-hum">
-            <h2>Humidity</h2>
-            <svg width="120" height="180" viewBox="0 0 120 180" style="transform: scale(1.2);position: relative;top: 20px;">
-                <defs>
-                    <clipPath id="dropClip">
-                        <path d="
-                        M60 20
-                        C90 60, 110 130, 60 130
-                        C10 130, 30 60, 60 20
-                        Z"></path>
-                    </clipPath>
-                </defs>
-                
-                <path d="
-                M60 20
-                C90 60, 110 130, 60 130
-                C10 130, 30 60, 60 20
-                Z" fill="none" stroke="#fff" stroke-width="1"></path>
-                
-                <rect id="drop-fill" x="0" y="54" width="120" height="180" fill="#fff" clip-path="url(#dropClip)" style="transition: y 0.5s ease;"></rect>
-            </svg>
-            <p id="hum">--</p>
-        </section> -->
         <section class="slide" id="slide-temp">
             <h2>Temperature</h2>
             <svg></svg>
@@ -157,24 +129,16 @@
             <p id="solar">--</p>
         </section>
     </div>
+    <nav class="bottom-nav">
+        <button onclick="goToSlide(0)">🧭 Alt</button>
+        <button onclick="goToSlide(1)">🧭 Azi</button>
+        <button onclick="goToSlide(2)">💧 Hum</button>
+        <button onclick="goToSlide(3)">🌡 Temp</button>
+        <button onclick="goToSlide(4)">☀️ Solar</button>
+    </nav>
 
 <script>
     let currentSlide = 0;
-    
-    // function update() {
-    //     fetch('/update')
-    //     .then(response => response.json())
-    //     .then(data => { 
-    //         document.querySelector('#alt').textContent = `${data.alt}°`; 
-    //         document.querySelector('#azi').textContent = `${data.azi}°`;
-    //         document.querySelector('#hum').textContent = `${data.hum}%`;
-    //         document.querySelector('#temp').textContent = `${data.temp}°C`;
-
-    //         document.querySelector('#alt-arrow').setAttribute('transform', `rotate(${-data.alt} 50 150)`);
-    //         document.querySelector('#azi-arrow').setAttribute('transform', `rotate(${data.azi} 100 100)`);
-    //         document.getElementById('drop-fill').setAttribute('y', 130 - (110 * data.hum / 100));
-    //     })
-    // }
     function update() {
         fetch('/update')
         .then(response => response.json())
@@ -189,59 +153,46 @@
             document.getElementById('drop-fill').style.top = `${130 - (110 * data.hum / 100)}px`;
         });
     }
-
-
     update()
-    
     setInterval(update, 10000)
 
-    // свайп-слайдер
-    // document.addEventListener('keydown', e => {
-    //     if (e.key === 'ArrowRight') currentSlide = Math.min(currentSlide + 1, 4);
-    //     if (e.key === 'ArrowLeft') currentSlide = Math.max(currentSlide - 1, 0);
-    //     document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
-    //     if (currentSlide == 0) alt_anim(document.querySelector('#alt').textContent.slice(0, -1));
-    //     if (currentSlide == 1) azi_anim(document.querySelector('#azi').textContent.slice(0, -1)); 
-    //     if (currentSlide == 3) hum_anim(document.querySelector('#hum').textContent.slice(0, -1));
-    // });
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    document.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-    });
-    
-    document.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
-    
-    function handleSwipe() {
-        const threshold = 50; // минимальное расстояние для свайпа
-    
-        if (touchEndX < touchStartX - threshold) {
-            currentSlide = Math.min(currentSlide + 1, document.querySelectorAll('.slide').length - 1);
-        }
-    
-        if (touchEndX > touchStartX + threshold) {
-            currentSlide = Math.max(currentSlide - 1, 0);
-        }
-    
+    function goToSlide(index) {
+        currentSlide = index;
         document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
     
         switch (currentSlide) {
-            case 0:
-                alt_anim(parseFloat(document.querySelector('#alt').textContent));
-                break;
-            case 1:
-                azi_anim(parseFloat(document.querySelector('#azi').textContent));
-                break;
-            case 2:
-                hum_anim(parseFloat(document.querySelector('#hum').textContent));
-                break;
+            case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); break;
+            case 1: azi_anim(parseFloat(document.querySelector('#azi').textContent)); break;
+            case 3: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
         }
     }
+
+    const slider = document.querySelector('.slider');
+    let startX = 0;
+    let endX = 0;
+    
+    slider.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+    });
+    
+    slider.addEventListener('touchend', e => {
+        endX = e.changedTouches[0].clientX;
+        const delta = endX - startX;
+    
+        if (Math.abs(delta) > 50) {
+            if (delta < 0) currentSlide = Math.min(currentSlide + 1, 4);
+            else currentSlide = Math.max(currentSlide - 1, 0);
+    
+            slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    
+            switch (currentSlide) {
+                case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); break;
+                case 1: azi_anim(parseFloat(document.querySelector('#azi').textContent)); break;
+                case 3: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
+            }
+        }
+    });
+
 
 
     function azi_anim(deg) {
