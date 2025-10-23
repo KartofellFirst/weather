@@ -8,6 +8,8 @@
 <body>
     <h1 id="alt"></h1>
     <h1 id="azi"></h1>
+    <h1 id="hum"></h1>
+    <h1 id="temp"></h1>
 <script>
     
     
@@ -18,7 +20,7 @@
             document.querySelector('#alt').textContent = `alt: ${data.alt}°`; 
             document.querySelector('#azi').textContent = `azi: ${data.azi}°`;
             document.querySelector('#hum').textContent = `hum: ${data.hum}%`;
-            document.querySelector('#azi').textContent = `temp: ${data.azi}°C`;
+            document.querySelector('#temp').textContent = `temp: ${data.azi}°C`;
         })
     }
 
