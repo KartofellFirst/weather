@@ -296,9 +296,10 @@
         document.querySelector(`.glass-buttons button[data-index="${index}"]`).classList.add('active');
     
         switch (index) {
-            case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); break;
+            case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); indicator.style.left = `2px`; break;
             case 1: azi_anim(parseFloat(document.querySelector('#azi').textContent)); break;
             case 2: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
+            case 4: indicator.style.left = `$calc(72vw-4px)`;
         }
     }
     
@@ -308,7 +309,7 @@
             goToSlide(parseInt(btn.dataset.index));
         });
     });
-    indicator.style.left = `${0}vw`;
+    indicator.style.left = `2px`;
 
     let isDragging = false;
     let startX = 0;
