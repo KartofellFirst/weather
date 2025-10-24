@@ -259,7 +259,7 @@
     <nav class="glass-nav">
         <div class="glass-indicator" id="glass-indicator"></div>
         <div class="glass-buttons">
-            <button data-index="0" class=""><span>∠</span><br>Alt</button>
+            <button data-index="0" class=""><span>🎢</span><br>Alt</button>
             <button data-index="1" class=""><span>🧭</span><br>Azi</button>
             <button data-index="2" class=""><span>💧</span><br>Hum</button>
             <button data-index="3" class=""><span>🌡️</span><br>Temp</button>
@@ -293,7 +293,6 @@
     function goToSlide(index) {
         currentSlide = index;
         document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}vw)`;
-        // updateIndicator(index);
         indicator.style.left = `${index*18}vw`;
 
         document.querySelectorAll('.glass-buttons button').forEach(btn => btn.classList.remove('active'));
@@ -303,7 +302,7 @@
             case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); indicator.style.left = `2px`; break;
             case 1: azi_anim(parseFloat(document.querySelector('#azi').textContent)); break;
             case 2: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
-            case 4: indicator.style.left = `$calc(72vw-4px)`; break;
+            case 4: indicator.style.left = `calc(80% - 2px)`; break;
         }
     }
     
