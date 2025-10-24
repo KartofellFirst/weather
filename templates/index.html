@@ -8,13 +8,16 @@
     <style>
         html {
             background-color: #111;
+            overflow-x: hidden;
+            max-width: 100vw;
         }
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
             background: #111;
             color: #fff;
-            overflow: hidden;
+            overflow-x: hidden;
+            max-width: 100vw;
         }
         
         .slider {
@@ -43,75 +46,7 @@
             font-size: 3rem;
             margin-top: 1rem;
         }
-
-        /* .glass-nav {
-            position: fixed;
-            bottom: 5px;
-            left: 0;
-            width: 91vw;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius:9999px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            z-index: 10;
-            margin: 0 4.5vw;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow:
-                inset 0 0 10px #333,
-                0 8px 32px #222;
-            box-sizing: border-box;
-        }
         
-        .glass-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .glass-buttons button {
-            flex: 1;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1rem;
-            padding: 0.5rem 0;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
-            height: 70px;
-            box-sizing: border-box;
-        }
-        .glass-indicator {
-            position: absolute;
-            top: 4px;
-            width: 18vw;
-            height: 60px;
-            margin-left: 0.5vw;
-            transition: left 0.3s ease;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 999px;
-            backdrop-filter: blur(1px) contrast(2) brightness(0.6) saturate(20);
-            -webkit-backdrop-filter: blur(1px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow:
-                inset 0 0 10px rgba(15, 141, 235, 0.4),
-                0 8px 32px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-        }
-
-        .glass-buttons button.active {
-            transform: scale(1.6);
-            transition: transform 0.3s ease;
-            z-index: 3;
-            box-sizing: border-box;
-        } */
         .glass-nav {
             position: fixed;
             bottom: 5px;
@@ -126,9 +61,6 @@
             z-index: 10;
             margin: 0 4.5vw;
             border: 1px solid rgba(255, 255, 255, 0.2);
-/*             box-shadow:
-                inset 0 0 10px #333,
-                0 8px 32px #222; */
             box-sizing: border-box;
         }
         
@@ -169,10 +101,6 @@
             border-radius: 999px;
             backdrop-filter: blur(0px) contrast(2) brightness(0.6);
             -webkit-backdrop-filter: blur(0px);
-/*             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow:
-                inset 0 0 10px rgba(15, 141, 235, 0.4),
-                0 8px 32px rgba(0, 0, 0, 0.1); */
             box-sizing: border-box;
         }
 
