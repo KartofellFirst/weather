@@ -40,7 +40,7 @@
             margin-top: 1rem;
         }
 
-        .glass-nav {
+        /* .glass-nav {
             position: fixed;
             bottom: 5px;
             left: 0;
@@ -107,6 +107,83 @@
             transition: transform 0.3s ease;
             z-index: 3;
             box-sizing: border-box;
+        } */
+        .glass-nav {
+            position: fixed;
+            bottom: 5px;
+            left: 0;
+            width: 90vw;
+            height: 66px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius:9999px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 10;
+            margin: 0 4.5vw;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+/*             box-shadow:
+                inset 0 0 10px #333,
+                0 8px 32px #222; */
+            box-sizing: border-box;
+        }
+        
+        .glass-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            margin-left: 3px;
+        }
+        
+        .glass-buttons button {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            height: 66px;
+            box-sizing: border-box;
+            font-size: 10px;
+        }
+        .glass-indicator {
+            position: absolute;
+            top: -1px;
+            margin-top: 3px;
+            width: 18vw;
+            height: 60px;
+            transition: left 0.3s ease;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            backdrop-filter: blur(0px) contrast(2) brightness(0.6);
+            -webkit-backdrop-filter: blur(0px);
+/*             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow:
+                inset 0 0 10px rgba(15, 141, 235, 0.4),
+                0 8px 32px rgba(0, 0, 0, 0.1); */
+            box-sizing: border-box;
+        }
+
+        .glass-buttons button.active {
+            transform: scale(1.2);
+            transition: transform 0.3s ease;
+            z-index: 3;
+            box-sizing: border-box;
+            color: rgba(15, 141, 235);
+            font-weight: bold;
+        }
+
+        .glass-buttons button span {
+            font-size: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -178,11 +255,11 @@
     <nav class="glass-nav">
         <div class="glass-indicator" id="glass-indicator"></div>
         <div class="glass-buttons">
-            <button data-index="0">Alt</button>
-            <button data-index="1">Azi</button>
-            <button data-index="2">Hum</button>
-            <button data-index="3">Temp</button>
-            <button data-index="4">Solar</button>
+            <button data-index="0" class=""><span>💞</span><br>Alt</button>
+            <button data-index="1" class=""><span>🧭</span><br>Azi</button>
+            <button data-index="2" class=""><span>💧</span><br>Hum</button>
+            <button data-index="3" class=""><span>🌡️</span><br>Temp</button>
+            <button data-index="4" class="active"><span>☀️</span><br>Solar</button>
         </div>
     </nav>
 
