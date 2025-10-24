@@ -6,6 +6,9 @@
     <meta name="theme-color" content="#111">
     <title>Weather</title>
     <style>
+        html {
+            background-color: #111;
+        }
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
@@ -300,7 +303,7 @@
             case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); indicator.style.left = `2px`; break;
             case 1: azi_anim(parseFloat(document.querySelector('#azi').textContent)); break;
             case 2: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
-            case 4: indicator.style.left = `$calc(72vw-4px)`;
+            case 4: indicator.style.left = `$calc(72vw-4px)`; break;
         }
     }
     
