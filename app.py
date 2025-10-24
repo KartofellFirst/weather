@@ -3,7 +3,7 @@ import json
 
 app = Flask(__name__)
 
-changable = [0, 0, 0, 0]
+changable = [50, 236, 43, 25]
 
 @app.route('/')
 def home():
