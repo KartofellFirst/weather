@@ -175,7 +175,25 @@
         </section>
         <section class="slide" id="slide-temp">
             <h2>Temperature</h2>
-            <svg></svg>
+            <div class="svg-wrapper" style="position: relative; width: 80px; height: 200px;">
+                <!-- Статичный термометр -->
+                <svg width="80" height="200" viewBox="0 0 80 200" style="position: absolute; top: 0; left: 0;">
+                    <path d="M40 20 Q60 20 60 40 V140 Q60 160 40 160 Q20 160 20 140 V40 Q20 20 40 20 Z"
+                          stroke="#fff" stroke-width="2" fill="none"></path>
+                </svg>
+        
+                <!-- Заливка температуры -->
+                <div id="temp-fill" style="
+                    position: absolute;
+                    left: 0;
+                    width: 80px;
+                    height: 200px;
+                    background: linear-gradient(to top, red, orange);
+                    clip-path: path('M40 20 Q60 20 60 40 V140 Q60 160 40 160 Q20 160 20 140 V40 Q20 20 40 20 Z');
+                    transition: top 0.5s ease;
+                    top: 160px;
+                "></div>
+            </div>
             <p id="temp">--</p>
         </section>
         <section class="slide" id="slide-solar">
@@ -210,6 +228,7 @@
             document.querySelector('#alt-arrow').style.transform = `rotate(${-data.alt}deg)`;
             document.querySelector('#azi-arrow').style.transform = `rotate(${data.azi}deg)`;
             document.getElementById('drop-fill').style.top = `${130 - (110 * data.hum / 100)}px`;
+            document.getElementById('temp-fill').style.top = `${160 - ((data.temp / 50) * (160 - 20))}px`;  
         });
     }
     update()
@@ -230,6 +249,7 @@
             case 0: alt_anim(parseFloat(document.querySelector('#alt').textContent)); indicator.style.left = `2px`; break;
             case 1: azi_anim(parseFloat(document.querySelector('#azi').textContent)); break;
             case 2: hum_anim(parseFloat(document.querySelector('#hum').textContent)); break;
+            case 3: temp_anim(parseFloat(document.querySelector('#temo').textContent)); break;
             case 4: indicator.style.left = `calc(80% - 2px)`; break;
         }
     }
@@ -339,28 +359,20 @@
         }, 50);
     }
 
-
-    // function azi_anim(deg) {
-    //     const arrow = document.querySelector('#azi-arrow');
-    //     arrow.style.transition = 'none';
-    //     arrow.setAttribute('transform', `rotate(0 100 100)`);
-    //     setTimeout(() => {arrow.style.transition = 'transform 0.5s ease';arrow.setAttribute('transform', `rotate(${deg} 100 100)`);}, 50);
-    // }
+    function temp_anim(temp) {
+        const fill = document.getElementById('temp-fill');
+        const maxTemp = 50;
+        const minY = 20;
+        const maxY = 160;
+        const y = maxY - ((temp / maxTemp) * (maxY - minY));
     
-    // function alt_anim(deg) {
-    //     const arrow = document.querySelector('#alt-arrow');
-    //     arrow.style.transition = 'none';
-    //     arrow.setAttribute('transform', `rotate(0 50 150)`);
-    //     setTimeout(() => {arrow.style.transition = 'transform 0.5s ease';arrow.setAttribute('transform', `rotate(${-deg} 50 150)`);}, 50);
-    // }
-
-    // function hum_anim(hum) {
-    //     const fill = document.getElementById('drop-fill');
-    //     const y = 130 - (110 * hum / 100);
-    //     fill.style.transition = "none";
-    //     fill.setAttribute('y', 130);
-    //     setTimeout(() => {fill.style.transition = "y .5s ease"; fill.setAttribute('y', y);}, 50) 
-    // }
+        fill.style.transition = "none";
+        fill.style.top = `${maxY}px`;
+        setTimeout(() => {
+            fill.style.transition = "top 0.5s ease";
+            fill.style.top = `${y}px`;
+        }, 50);
+    }
 </script>
 </body>
 </html>
