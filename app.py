@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 import json
 
 app = Flask(__name__)
@@ -8,6 +8,10 @@ changable = [50, 236, 43, 25]
 @app.route('/')
 def home():
     return render_template("index.html")
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('static', filename)
 
 @app.route('/update', methods=["GET"])
 def give_data():
