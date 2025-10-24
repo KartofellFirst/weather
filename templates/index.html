@@ -175,23 +175,24 @@
         </section>
         <section class="slide" id="slide-temp">
             <h2>Temperature</h2>
-            <svg width="80" height="200" viewBox="0 0 80 200" style="position: relative;">
-                <!-- Контур термометра -->
-                <path d="M40 20 Q60 20 60 40 V140 Q60 160 40 160 Q20 160 20 140 V40 Q20 20 40 20 Z" stroke="#fff" stroke-width="1" fill="none"></path>
-        
-                <!-- ClipPath -->
-                <defs>
-                    <clipPath id="thermoClip">
-                        <path d="M40 20 Q60 20 60 40 V140 Q60 160 40 160 Q20 160 20 140 V40 Q20 20 40 20 Z"></path>
-                    </clipPath>
-                </defs>
-        
-                <!-- foreignObject с заливкой -->
-                <foreignObject x="0" y="0" width="80" height="200" clip-path="url(#thermoClip)">
-                    <div xmlns="http://www.w3.org/1999/xhtml" id="temp-fill" style="width: 80px; height: 200px; background: linear-gradient(to top, red, orange); position: relative; top: 90px; transition: top 0.5s;">
-                    </div>
-                </foreignObject>
-            </svg>
+            <div style="position: relative; width: 80px; height: 200px;">
+                <!-- Статичный термометр -->
+                <svg width="80" height="200" viewBox="0 0 80 200" style="position: absolute; top: 0; left: 0;">
+                    <defs>
+                        <clipPath id="thermoClip">
+                            <path d="M40 20 Q60 20 60 40 V140 Q60 160 40 160 Q20 160 20 140 V40 Q20 20 40 20 Z"></path>
+                        </clipPath>
+                    </defs>
+                    <path d="M40 20 Q60 20 60 40 V140 Q60 160 40 160 Q20 160 20 140 V40 Q20 20 40 20 Z"
+                          stroke="#fff" stroke-width="2" fill="none"></path>
+                </svg>
+            
+                <!-- Заливка -->
+                <div style="position: absolute; top: 0; left: 0; width: 80px; height: 200px; overflow: hidden; clip-path: url(#thermoClip);">
+                    <div id="temp-fill" style="background: linear-gradient(to top, red, orange); width: 80px; height: 200px; position: absolute; top: 160px; transition: top 0.5s ease;"></div>
+                </div>
+            </div>
+
             <p id="temp">25°C</p>
         </section>
         <section class="slide" id="slide-solar">
